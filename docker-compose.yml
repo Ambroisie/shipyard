@@ -69,6 +69,28 @@ services:
       - "proxy-tier"
       - "default"
 
+  calibre:
+    image: linuxserver/calibre
+    container_name: calibre
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=calibre.belanyi.fr
+      - LETSENCRYPT_HOST=calibre.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - GUAC_USER=ambroisie # optional
+      - GUAC_PASS=08e9e53c92fed51371f94c88bd240c02 # password
+    volumes:
+      - ./library:/config
+    ports:
+      - "8080:8080"
+      #- "8081:8081"
+    networks:
+      - "default"
+      - "proxy-tier"
+
   calibre-web:
     image: linuxserver/calibre-web
     container_name: calibre-web
