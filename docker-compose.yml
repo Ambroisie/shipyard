@@ -77,6 +77,7 @@ services:
       - VIRTUAL_HOST=calibre.belanyi.fr
       - LETSENCRYPT_HOST=calibre.belanyi.fr
       - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - VIRTUAL_PORT=8080
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
