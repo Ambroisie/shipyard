@@ -51,6 +51,24 @@ services:
     ports:
       - "9000:9000"
 
+  freshrss:
+    image: linuxserver/freshrss
+    container_name: freshrss
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=feed.belanyi.fr
+      - LETSENCRYPT_HOST=feed.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PGID=1001
+      - PUID=1000
+    volumes:
+      - ./freshrss:/config
+    ports:
+      - "667:80"
+    networks:
+      - "proxy-tier"
+      - "default"
+
 volumes:
   certs:
   vhost.d:
