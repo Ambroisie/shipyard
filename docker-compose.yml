@@ -69,6 +69,27 @@ services:
       - "proxy-tier"
       - "default"
 
+  calibre-web:
+    image: linuxserver/calibre-web
+    container_name: calibre-web
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=library.belanyi.fr
+      - LETSENCRYPT_HOST=library.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - DOCKER_MODS=linuxserver/calibre-web:calibre
+    volumes:
+      - ./calibre-web:/config
+      - ./library:/books
+    ports:
+      - "8083:8083"
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
