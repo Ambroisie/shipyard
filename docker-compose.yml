@@ -81,7 +81,7 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
       - GUAC_USER=ambroisie # optional
-      - GUAC_PASS=08e9e53c92fed51371f94c88bd240c02 # password
+      - GUAC_PASS=3e0109e17016d3a2dc0a350d9a9ca104 # password
     volumes:
       - ./library:/config
     ports:
