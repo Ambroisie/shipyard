@@ -37,20 +37,6 @@ services:
       - "default"
       - "proxy-tier"
 
-  portainer:
-    image: portainer/portainer
-    container_name: portainer
-    restart: always
-    environment:
-      - VIRTUAL_HOST=docker.belanyi.fr
-      - LETSENCRYPT_HOST=docker.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-    volumes:
-      - ./portainer/:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "9000:9000"
-
   freshrss:
     image: linuxserver/freshrss
     container_name: freshrss
