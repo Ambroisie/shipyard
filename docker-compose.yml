@@ -157,6 +157,28 @@ services:
       - "proxy-tier"
       - "default"
 
+  pyload:
+    image: linuxserver/pyload
+    container_name: pyload
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=pyload.belanyi.fr
+      - LETSENCRYPT_HOST=pyload.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - VIRTUAL_PORT=8000
+      - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./pyload:/config
+      - ~/downloads:/downloads
+    ports:
+      - 8000:8000
+      - 7227:7227 #optional
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
