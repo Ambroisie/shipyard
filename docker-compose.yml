@@ -140,6 +140,23 @@ services:
       - "proxy-tier"
       - "default"
 
+  tenma:
+    image: hmhrex/tenma
+    container_name: tenma
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=tenma.belanyi.fr
+      - LETSENCRYPT_HOST=tenma.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+    volumes:
+      - ./comics:/tenma/files
+      - ./tenma:/tenma/media
+    ports:
+      - "8085:8000"
+    networks:
+      - "proxy-tier"
+      - "default"
+
 volumes:
   certs:
   vhost.d:
