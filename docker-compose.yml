@@ -123,23 +123,6 @@ services:
       - "proxy-tier"
       - "default"
 
-  comixed:
-    image: comixed/comixed:release
-    container_name: comixed
-    restart: unless-stopped
-    environment:
-      - VIRTUAL_HOST=comixed.belanyi.fr
-      - LETSENCRYPT_HOST=comixed.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-    volumes:
-      - ./comics:/comic_dir
-      - ./comixed:/root/.comixed
-    ports:
-      - "7171:7171"
-    networks:
-      - "proxy-tier"
-      - "default"
-
   tenma:
     image: hmhrex/tenma
     container_name: tenma
