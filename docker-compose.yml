@@ -271,6 +271,28 @@ services:
       - "default"
       - "proxy-tier"
 
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=bazarr.belanyi.fr
+      - LETSENCRYPT_HOST=bazarr.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./bazarr:/config
+      - ~/videos/movies:/movies
+      - ~/videos/shows:/tv
+    ports:
+      - 6767:6767
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
