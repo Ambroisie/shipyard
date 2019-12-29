@@ -227,6 +227,28 @@ services:
       - "default"
       - "proxy-tier"
 
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=sonarr.belanyi.fr
+      - LETSENCRYPT_HOST=sonarr.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./sonarr:/config
+      - ~/videos/shows:/tv
+      - ~/downloads:/downloads
+    ports:
+      - 8989:8989
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
