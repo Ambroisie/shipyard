@@ -179,6 +179,33 @@ services:
       - "default"
       - "proxy-tier"
 
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=transmission.belanyi.fr
+      - LETSENCRYPT_HOST=transmission.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - VIRTUAL_PORT=9091
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      # UI can be combustion-release, transmission-web-control, or kettu
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+      - USER=Ambroisie #optional
+      - PASS=yb87AdRXZJPK2w^QFY!BM8QD4Pn5rpeK #optional
+    volumes:
+      - ./transmission:/config
+      - ~/downloads:/downloads
+      - ~/downloads/blackhole:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    networks:
+      - "default"
+      - "proxy-tier"
 volumes:
   certs:
   vhost.d:
