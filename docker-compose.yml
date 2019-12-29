@@ -206,6 +206,27 @@ services:
     networks:
       - "default"
       - "proxy-tier"
+
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=jackett.belanyi.fr
+      - LETSENCRYPT_HOST=jackett.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./jackett:/config
+      - ~/downloads/blackhole:/downloads
+    ports:
+      - 9117:9117
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
