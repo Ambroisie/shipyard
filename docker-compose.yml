@@ -249,6 +249,28 @@ services:
       - "default"
       - "proxy-tier"
 
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=radarr.belanyi.fr
+      - LETSENCRYPT_HOST=radarr.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./radarr:/config
+      - ~/videos/movies:/movies
+      - ~/downloads:/downloads
+    ports:
+      - 7878:7878
+    networks:
+      - "default"
+      - "proxy-tier"
+
 volumes:
   certs:
   vhost.d:
