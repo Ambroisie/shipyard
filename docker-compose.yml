@@ -335,6 +335,27 @@ services:
     ports:
       - 9283:80
 
+  emby:
+    image: linuxserver/emby
+    container_name: emby
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=emby.belanyi.fr
+      - LETSENCRYPT_HOST=emby.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - VIRTUAL_PORT=8096
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - UMASK_SET=022 #optional
+    volumes:
+      - ./emby:/config
+      - ~/videos/shows:/data/tvshows
+      - ~/videos/movies:/data/movies
+      - /tmp/transcode:/transcode #optional
+    ports:
+      - 8096:8096
+
 volumes:
   certs:
   vhost.d:
