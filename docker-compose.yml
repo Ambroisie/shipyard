@@ -356,6 +356,22 @@ services:
     ports:
       - 8096:8096
 
+  embystat:
+    image: linuxserver/embystat
+    container_name: embystat
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=emby-stat.belanyi.fr
+      - LETSENCRYPT_HOST=emby-stat.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./embystat:/config
+    ports:
+      - 6555:6555
+
 volumes:
   certs:
   vhost.d:
