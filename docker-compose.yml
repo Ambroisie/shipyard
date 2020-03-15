@@ -281,6 +281,19 @@ services:
       - 8080
     user: 1000:1000
 
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    restart: unless-stopped
+    env_file:
+      - ./jellyfin/jellyfin.env
+    volumes:
+      - ./jellyfin:/config
+      - ~/videos/shows:/data/tvshows
+      - ~/videos/movies:/data/movies
+    expose:
+      - 8096
+
   photoprism:
     image: photoprism/photoprism:latest
     container_name: photoprism
