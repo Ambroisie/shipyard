@@ -319,22 +319,6 @@ services:
       - 4242:4242
       - 113:10113 #optional
 
-  grocy:
-    image: linuxserver/grocy
-    container_name: grocy
-    restart: unless-stopped
-    environment:
-      - VIRTUAL_HOST=grocy.belanyi.fr
-      - LETSENCRYPT_HOST=grocy.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-    volumes:
-      - ./grocy:/config
-    ports:
-      - 9283:80
-
   emby:
     image: linuxserver/emby
     container_name: emby
