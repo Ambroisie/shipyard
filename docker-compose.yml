@@ -356,6 +356,26 @@ services:
     ports:
       - 6555:6555
 
+  airsonic:
+    image: linuxserver/airsonic
+    container_name: airsonic
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=airsonic.belanyi.fr
+      - LETSENCRYPT_HOST=airsonic.belanyi.fr
+      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - CONTEXT_PATH=/
+    volumes:
+      - ./airsonic/:/config
+      - ~/music/:/music
+      - ~/podcasts:/podcasts
+      - ~/playlists:/playlists
+    ports:
+      - 4040:4040
+
 volumes:
   certs:
   vhost.d:
