@@ -18,3 +18,12 @@
 /emby
 embystat
 /airsonic
+
+/letsencrypt/*
+!/letsencrypt/nginx/
+
+/letsencrypt/nginx/*
+!/letsencrypt/nginx/proxy-confs/
+
+/letsencrypt/nginx/proxy-confs/*.sample
+/letsencrypt/nginx/proxy-confs/README.md

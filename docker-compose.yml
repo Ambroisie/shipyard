@@ -1,69 +1,48 @@
 version: "2"
 
 services:
-
-  proxy:
-    image: jwilder/nginx-proxy
-    container_name: proxy
-    restart: unless-stopped
-    labels:
-      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - certs:/etc/nginx/certs:rw
-      - vhost.d:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - ./uploadsize.conf:/etc/nginx/conf.d/uploadsize.conf:ro
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - "default"
-      - "proxy-tier"
-
-  proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
+  letsencrypt:
+    image: linuxserver/letsencrypt
     container_name: letsencrypt
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     environment:
-      - NGINX_PROXY_CONTAINER=proxy
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - URL=belanyi.fr
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=gandi #optional
+      - EMAIL=brunobelanyi@gmail.com #optional
+      - DHLEVEL=2048 #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - EXTRA_DOMAINS= #optional
+      - STAGING=false #optional
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    volumes_from:
-      - "proxy"
-    depends_on:
-      - "proxy"
-    networks:
-      - "default"
-      - "proxy-tier"
+      - ./letsencrypt:/config
+    ports:
+      - 443:443
+      - 80:80 #optional
 
   freshrss:
     image: linuxserver/freshrss
     container_name: freshrss
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=feed.belanyi.fr
-      - LETSENCRYPT_HOST=feed.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PGID=1001
       - PUID=1000
     volumes:
       - ./freshrss:/config
     ports:
       - "667:80"
-    networks:
-      - "proxy-tier"
-      - "default"
 
   calibre:
     image: linuxserver/calibre
     container_name: calibre
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=calibre.belanyi.fr
-      - LETSENCRYPT_HOST=calibre.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=8080
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -75,18 +54,12 @@ services:
     ports:
       - "8080:8080"
       #- "8081:8081"
-    networks:
-      - "default"
-      - "proxy-tier"
 
   calibre-web:
     image: linuxserver/calibre-web
     container_name: calibre-web
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=library.belanyi.fr
-      - LETSENCRYPT_HOST=library.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -96,19 +69,12 @@ services:
       - ./library:/books
     ports:
       - "8083:8083"
-    networks:
-      - "default"
-      - "proxy-tier"
 
   pyload:
     image: linuxserver/pyload
     container_name: pyload
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=pyload.belanyi.fr
-      - LETSENCRYPT_HOST=pyload.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=8000
       - TZ=Europe/Paris
       - PUID=1000
       - PGID=1000
@@ -118,19 +84,12 @@ services:
     ports:
       - 8000:8000
       - 7227:7227 #optional
-    networks:
-      - "default"
-      - "proxy-tier"
 
   transmission:
     image: linuxserver/transmission
     container_name: transmission
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=transmission.belanyi.fr
-      - LETSENCRYPT_HOST=transmission.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=9091
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -146,18 +105,12 @@ services:
       - 9091:9091
       - 51413:51413
       - 51413:51413/udp
-    networks:
-      - "default"
-      - "proxy-tier"
 
   jackett:
     image: linuxserver/jackett
     container_name: jackett
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=jackett.belanyi.fr
-      - LETSENCRYPT_HOST=jackett.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -166,18 +119,12 @@ services:
       - ~/downloads/blackhole:/downloads
     ports:
       - 9117:9117
-    networks:
-      - "default"
-      - "proxy-tier"
 
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=sonarr.belanyi.fr
-      - LETSENCRYPT_HOST=sonarr.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -188,18 +135,12 @@ services:
       - ~/downloads:/downloads
     ports:
       - 8989:8989
-    networks:
-      - "default"
-      - "proxy-tier"
 
   radarr:
     image: linuxserver/radarr
     container_name: radarr
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=radarr.belanyi.fr
-      - LETSENCRYPT_HOST=radarr.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -210,18 +151,12 @@ services:
       - ~/downloads:/downloads
     ports:
       - 7878:7878
-    networks:
-      - "default"
-      - "proxy-tier"
 
   bazarr:
     image: linuxserver/bazarr
     container_name: bazarr
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=bazarr.belanyi.fr
-      - LETSENCRYPT_HOST=bazarr.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -232,18 +167,12 @@ services:
       - ~/videos/shows:/tv
     ports:
       - 6767:6767
-    networks:
-      - "default"
-      - "proxy-tier"
 
   lidarr:
     image: linuxserver/lidarr
     container_name: lidarr
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=lidarr.belanyi.fr
-      - LETSENCRYPT_HOST=lidarr.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -254,19 +183,12 @@ services:
       - ~/downloads:/downloads
     ports:
       - 8686:8686
-    networks:
-      - "default"
-      - "proxy-tier"
 
   quassel-core:
     image: linuxserver/quassel-core
     container_name: quassel-core
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=quassel.belanyi.fr
-      - LETSENCRYPT_HOST=quassel.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=4242
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -284,10 +206,6 @@ services:
     container_name: emby
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=emby.belanyi.fr
-      - LETSENCRYPT_HOST=emby.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=8096
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -305,9 +223,6 @@ services:
     container_name: airsonic
     restart: unless-stopped
     environment:
-      - VIRTUAL_HOST=airsonic.belanyi.fr
-      - LETSENCRYPT_HOST=airsonic.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
@@ -319,11 +234,3 @@ services:
       - ~/playlists:/playlists
     ports:
       - 4040:4040
-
-volumes:
-  certs:
-  vhost.d:
-  html:
-
-networks:
-  proxy-tier:
