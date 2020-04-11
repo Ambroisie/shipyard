@@ -100,29 +100,6 @@ services:
       - "default"
       - "proxy-tier"
 
-  gitea:
-    image: gitea/gitea:latest
-    container_name: gitea
-    restart: unless-stopped
-    environment:
-      - VIRTUAL_HOST=gitea.belanyi.fr
-      - LETSENCRYPT_HOST=gitea.belanyi.fr
-      - LETSENCRYPT_EMAIL=brunobelanyi@gmail.com
-      - VIRTUAL_PORT=3000
-      - ROOT_URL=https://gitea.belanyi.fr
-      - DOMAIN=gitea.belanyi.fr
-      - PROTOCOL=http
-      - USER_UID=1000
-      - USER_GID=1000
-    volumes:
-      - ./gitea:/data
-    ports:
-      - "5000:3000"
-      - "222:22"
-    networks:
-      - "proxy-tier"
-      - "default"
-
   tenma:
     image: hmhrex/tenma
     container_name: tenma
