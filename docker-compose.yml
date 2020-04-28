@@ -38,6 +38,15 @@ services:
     ports:
       - "667:80"
 
+  rss-bridge:
+    image: rssbridge/rss-bridge
+    container_name: rss-bridge
+    restart: unless-stopped
+    volumes:
+      - ./rss-bridge/whitelist.txt:/app/whitelist.txt
+    ports:
+      - 3000:80
+
   calibre:
     image: linuxserver/calibre
     container_name: calibre
