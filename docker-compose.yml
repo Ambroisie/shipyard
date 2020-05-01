@@ -130,6 +130,20 @@ services:
       - 8081:8080
       - 9090:9090
 
+  nzbhydra2:
+    image: linuxserver/nzbhydra2
+    container_name: nzbhydra2
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./nzbhydra2:/config
+      - ~/downloads:/downloads
+    ports:
+      - 5076:5076
+
   jackett:
     image: linuxserver/jackett
     container_name: jackett
