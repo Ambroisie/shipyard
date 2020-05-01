@@ -58,8 +58,8 @@ services:
       - GUAC_USER=ambroisie # optional
       - GUAC_PASS=3e0109e17016d3a2dc0a350d9a9ca104 # password
     volumes:
-      - ./library:/config
-      - ./books_to_add:/books_to_add
+      - ~/library:/config
+      - ~/books_to_add:/books_to_add
     ports:
       - "8080:8080"
       #- "8081:8081"
@@ -75,7 +75,7 @@ services:
       - DOCKER_MODS=linuxserver/calibre-web:calibre
     volumes:
       - ./calibre-web:/config
-      - ./library:/books
+      - ~/library:/books
     ports:
       - "8083:8083"
 
