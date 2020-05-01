@@ -115,6 +115,21 @@ services:
       - 51413:51413
       - 51413:51413/udp
 
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./sabnzbd:/config
+      - ~/downloads:/downloads
+    ports:
+      - 8081:8080
+      - 9090:9090
+
   jackett:
     image: linuxserver/jackett
     container_name: jackett

@@ -18,6 +18,7 @@
 /emby
 embystat
 /airsonic
+sabnzbd
 
 /letsencrypt/*
 !/letsencrypt/nginx/
