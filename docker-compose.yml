@@ -29,6 +29,17 @@ services:
     expose:
       - 9091
 
+  wg-gen-web:
+    image: vx3r/wg-gen-web:latest
+    container_name: wg-gen-web
+    restart: unless-stopped
+    expose:
+      - 8080
+    env_file:
+      - wg/wg-gen.env
+    volumes:
+      - /etc/wireguard:/data
+
   freshrss:
     image: linuxserver/freshrss
     container_name: freshrss
