@@ -292,3 +292,16 @@ services:
       - ~/playlists:/playlists
     ports:
       - 4040:4040
+
+  komga:
+    image: gotson/komga
+    container_name: komga
+    restart: unless-stopped
+    volumes:
+      - ./komga:/config
+      - ~/comics:/books/comics
+      - ~/manga:/books/manga
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - 8082:8080
+    user: 1000:1000
