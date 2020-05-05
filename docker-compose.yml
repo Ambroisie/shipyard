@@ -79,6 +79,27 @@ services:
     ports:
       - "8083:8083"
 
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      - APP_NAME="Ambroisie's Gitea"
+      - RUN_MODE=prod
+      - DOMAIN=gitea.belanyi.fr
+      - ROOT_URL=https://gitea.belanyi.fr
+      - LFS_START_SERVER=true
+      - SSH_PORT=222
+      - USER_UID=1000
+      - USER_GID=1000
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 6000:3000
+      - 222:222
+
   pyload:
     image: linuxserver/pyload
     container_name: pyload
