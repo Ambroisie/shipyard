@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   letsencrypt:
@@ -304,4 +304,52 @@ services:
       - /etc/timezone:/etc/timezone:ro
     ports:
       - 8082:8080
+    user: 1000:1000
+
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+    restart: unless-stopped
+    healthcheck:
+      test: "photoprism status"
+      interval: 60s
+      timeout: 15s
+      retries: 5
+    environment:
+      PHOTOPRISM_URL: "https://photoprism.belanyi.fr"
+      PHOTOPRISM_TITLE: "PhotoPrism"
+      PHOTOPRISM_SUBTITLE: "Browse your life"
+      PHOTOPRISM_DESCRIPTION: "Personal Photo Management powered by Go and Google TensorFlow. Free and open-source."
+      PHOTOPRISM_AUTHOR: "Anonymous"
+      PHOTOPRISM_TWITTER: "@browseyourlife"
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_DETECT_NSFW: "true"
+      PHOTOPRISM_EXPERIMENTAL: "false"
+      PHOTOPRISM_DEBUG: "false"
+      PHOTOPRISM_READONLY: "false"
+      PHOTOPRISM_PUBLIC: "false"
+      PHOTOPRISM_DISABLE_SETTINGS: "false"
+      PHOTOPRISM_HTTP_HOST: "0.0.0.0"
+      PHOTOPRISM_HTTP_PORT: 2342
+      PHOTOPRISM_TIDB_HOST: "0.0.0.0"
+      PHOTOPRISM_TIDB_PORT: 2343 # Port for built-in TiDB SQL server (driver "tidb")
+      PHOTOPRISM_TIDB_PASSWORD: "photoprism" # Plain text only (username "root")
+      PHOTOPRISM_ADMIN_PASSWORD: "$$2y$$10$$5/1WPeVMXk4SjBKyDdbqhuQU3RPiYyGZGl8yh0Fxa9eno6Ou/FbSi" # Plain text or bcrypt hash (escape "$" with "$$")
+      #PHOTOPRISM_WEBDAV_PASSWORD: "photoprism" # Plain text only (username "photoprism")
+      PHOTOPRISM_DATABASE_DRIVER: "tidb" # Change to "mysql" for external MySQL or MariaDB
+      PHOTOPRISM_DATABASE_DSN: "root:photoprism@tcp(localhost:2343)/photoprism?parseTime=true"
+      PHOTOPRISM_JPEG_QUALITY: 90 # Use 95 for high-quality thumbnails (requires more storage)
+      PHOTOPRISM_THUMB_FILTER: "lanczos" # Resample filter, best to worst: blackman, lanczos, cubic, linear
+      PHOTOPRISM_THUMB_UNCACHED: "false" # On-demand rendering of default thumbnails (high memory and cpu usage)
+      PHOTOPRISM_THUMB_SIZE: 2048 # Default thumbnail size limit (default 2048, min 720, max 3840)
+      PHOTOPRISM_THUMB_LIMIT: 3840 # On-demand thumbnail size limit (default 2048, min 720, max 3840)
+    volumes:
+      - ~/pictures/originals:/photoprism/originals
+      - ~/pictures/import:/photoprism/import
+      - ./photoprism/config:/photoprism/config
+      - ./photoprism/cache:/photoprism/cache
+      - ./photoprism/database:/photoprism/database
+    ports:
+      - 2342:2342
+      - 2343:2343
     user: 1000:1000

@@ -21,6 +21,7 @@ embystat
 sabnzbd
 nzbhydra2
 komga
+photoprism
 
 /letsencrypt/*
 !/letsencrypt/nginx/
