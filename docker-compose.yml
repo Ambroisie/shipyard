@@ -7,19 +7,8 @@ services:
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - URL=belanyi.fr
-      - SUBDOMAINS=wildcard
-      - VALIDATION=dns
-      - DNSPLUGIN=gandi #optional
-      - EMAIL=brunobelanyi@gmail.com #optional
-      - DHLEVEL=2048 #optional
-      - ONLY_SUBDOMAINS=false #optional
-      - EXTRA_DOMAINS= #optional
-      - STAGING=false #optional
+    env_file:
+      - ./letsencrypt/letsencrypt.env
     volumes:
       - ./letsencrypt:/config
     ports:
@@ -29,9 +18,8 @@ services:
     image: linuxserver/freshrss
     container_name: freshrss
     restart: unless-stopped
-    environment:
-      - PGID=1001
-      - PUID=1000
+    env_file:
+      - ./freshrss/freshrss.env
     volumes:
       - ./freshrss:/config
     expose:
@@ -41,6 +29,8 @@ services:
     image: rssbridge/rss-bridge
     container_name: rss-bridge
     restart: unless-stopped
+    env_file:
+      - ./rss-bridge/rss-bridge.env
     volumes:
       - ./rss-bridge/whitelist.txt:/app/whitelist.txt
     expose:
@@ -50,12 +40,9 @@ services:
     image: linuxserver/calibre
     container_name: calibre
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - GUAC_USER=ambroisie # optional
-      - GUAC_PASS=3e0109e17016d3a2dc0a350d9a9ca104 # password
+    env_file:
+      - ./calibre/calibre.env
+      - ./calibre/calibre.env.secret
     volumes:
       - ~/library:/config
       - ~/books_to_add:/books_to_add
@@ -66,11 +53,8 @@ services:
     image: linuxserver/calibre-web
     container_name: calibre-web
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - DOCKER_MODS=linuxserver/calibre-web:calibre
+    env_file:
+      - ./calibre-web/calibre-web.env
     volumes:
       - ./calibre-web:/config
       - ~/library:/books
@@ -81,15 +65,8 @@ services:
     image: gitea/gitea:latest
     container_name: gitea
     restart: unless-stopped
-    environment:
-      - APP_NAME="Ambroisie's Gitea"
-      - RUN_MODE=prod
-      - DOMAIN=gitea.belanyi.fr
-      - ROOT_URL=https://gitea.belanyi.fr
-      - LFS_START_SERVER=true
-      - SSH_PORT=222
-      - USER_UID=1000
-      - USER_GID=1000
+    env_file:
+      - gitea/gitea.env
     volumes:
       - ./gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -103,10 +80,8 @@ services:
     image: linuxserver/pyload
     container_name: pyload
     restart: unless-stopped
-    environment:
-      - TZ=Europe/Paris
-      - PUID=1000
-      - PGID=1000
+    env_file:
+      - ./pyload/pyload.env
     volumes:
       - ./pyload:/config
       - ~/downloads:/downloads
@@ -118,14 +93,8 @@ services:
     image: linuxserver/transmission
     container_name: transmission
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      # UI can be combustion-release, transmission-web-control, or kettu
-      - TRANSMISSION_WEB_HOME=/combustion-release/
-      - USER=Ambroisie #optional
-      - PASS=yb87AdRXZJPK2w^QFY!BM8QD4Pn5rpeK #optional
+    env_file:
+      - ./transmission/transmission.env
     volumes:
       - ./transmission:/config
       - ~/downloads:/downloads
@@ -139,10 +108,8 @@ services:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
+    env_file:
+      - ./sabnzbd/sabnzbd.env
     volumes:
       - ./sabnzbd:/config
       - ~/downloads:/downloads
@@ -154,10 +121,8 @@ services:
     image: linuxserver/nzbhydra2
     container_name: nzbhydra2
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+    env_file:
+      - ./nzbhydra2/nzbhydra.env
     volumes:
       - ./nzbhydra2:/config
       - ~/downloads:/downloads
@@ -168,10 +133,8 @@ services:
     image: linuxserver/jackett
     container_name: jackett
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
+    env_file:
+      - ./jackett/jackett.env
     volumes:
       - ./jackett:/config
       - ~/downloads/blackhole:/downloads
@@ -182,11 +145,8 @@ services:
     image: linuxserver/sonarr
     container_name: sonarr
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./sonarr/sonarr.env
     volumes:
       - ./sonarr:/config
       - ~/videos/shows:/tv
@@ -198,11 +158,8 @@ services:
     image: linuxserver/radarr
     container_name: radarr
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./radarr/radarr.env
     volumes:
       - ./radarr:/config
       - ~/videos/movies:/movies
@@ -214,11 +171,8 @@ services:
     image: linuxserver/bazarr
     container_name: bazarr
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./bazarr/bazarr.env
     volumes:
       - ./bazarr:/config
       - ~/videos/movies:/movies
@@ -230,11 +184,8 @@ services:
     image: linuxserver/lidarr
     container_name: lidarr
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - UMASK_SET=022 #optional
+    env_file:
+      - lidarr/lidarr.env
     volumes:
       - ./lidarr:/config
       - ~/music:/music
@@ -246,13 +197,8 @@ services:
     image: linuxserver/quassel-core
     container_name: quassel-core
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - RUN_OPTS=--config-from-environment #optional
-      - DB_BACKEND=SQLite
-      - AUTH_AUTHENTICATOR=Database
+    env_file:
+      - ./quassel/quassel.env
     volumes:
       - ./quassel:/config
     ports:
@@ -263,11 +209,8 @@ services:
     image: linuxserver/emby
     container_name: emby
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - UMASK_SET=022 #optional
+    env_file:
+      - ./emby/emby.env
     volumes:
       - ./emby:/config
       - ~/videos/shows:/data/tvshows
@@ -280,11 +223,8 @@ services:
     image: linuxserver/airsonic
     container_name: airsonic
     restart: unless-stopped
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - CONTEXT_PATH=/
+    env_file:
+      - ./airsonic/airsonic.env
     volumes:
       - ./airsonic/:/config
       - ~/music/:/music
@@ -297,6 +237,8 @@ services:
     image: gotson/komga
     container_name: komga
     restart: unless-stopped
+    env_file:
+      - ./komga/komga.env
     volumes:
       - ./komga:/config
       - ~/comics:/books/comics
@@ -315,34 +257,8 @@ services:
       interval: 60s
       timeout: 15s
       retries: 5
-    environment:
-      PHOTOPRISM_URL: "https://photoprism.belanyi.fr"
-      PHOTOPRISM_TITLE: "PhotoPrism"
-      PHOTOPRISM_SUBTITLE: "Browse your life"
-      PHOTOPRISM_DESCRIPTION: "Personal Photo Management powered by Go and Google TensorFlow. Free and open-source."
-      PHOTOPRISM_AUTHOR: "Anonymous"
-      PHOTOPRISM_TWITTER: "@browseyourlife"
-      PHOTOPRISM_UPLOAD_NSFW: "true"
-      PHOTOPRISM_DETECT_NSFW: "true"
-      PHOTOPRISM_EXPERIMENTAL: "false"
-      PHOTOPRISM_DEBUG: "false"
-      PHOTOPRISM_READONLY: "false"
-      PHOTOPRISM_PUBLIC: "false"
-      PHOTOPRISM_DISABLE_SETTINGS: "false"
-      PHOTOPRISM_HTTP_HOST: "0.0.0.0"
-      PHOTOPRISM_HTTP_PORT: 2342
-      PHOTOPRISM_TIDB_HOST: "0.0.0.0"
-      PHOTOPRISM_TIDB_PORT: 2343 # Port for built-in TiDB SQL server (driver "tidb")
-      PHOTOPRISM_TIDB_PASSWORD: "photoprism" # Plain text only (username "root")
-      PHOTOPRISM_ADMIN_PASSWORD: "$$2y$$10$$5/1WPeVMXk4SjBKyDdbqhuQU3RPiYyGZGl8yh0Fxa9eno6Ou/FbSi" # Plain text or bcrypt hash (escape "$" with "$$")
-      #PHOTOPRISM_WEBDAV_PASSWORD: "photoprism" # Plain text only (username "photoprism")
-      PHOTOPRISM_DATABASE_DRIVER: "tidb" # Change to "mysql" for external MySQL or MariaDB
-      PHOTOPRISM_DATABASE_DSN: "root:photoprism@tcp(localhost:2343)/photoprism?parseTime=true"
-      PHOTOPRISM_JPEG_QUALITY: 90 # Use 95 for high-quality thumbnails (requires more storage)
-      PHOTOPRISM_THUMB_FILTER: "lanczos" # Resample filter, best to worst: blackman, lanczos, cubic, linear
-      PHOTOPRISM_THUMB_UNCACHED: "false" # On-demand rendering of default thumbnails (high memory and cpu usage)
-      PHOTOPRISM_THUMB_SIZE: 2048 # Default thumbnail size limit (default 2048, min 720, max 3840)
-      PHOTOPRISM_THUMB_LIMIT: 3840 # On-demand thumbnail size limit (default 2048, min 720, max 3840)
+    env_file:
+      - ./photoprism/photoprism.env
     volumes:
       - ~/pictures/originals:/photoprism/originals
       - ~/pictures/import:/photoprism/import
