@@ -1,28 +1,7 @@
-/calibre-web/
-/freshrss/
-/gitea/
-/library
-/books_to_add
-/comics
-/comixed/
-/tenma
-/pyload
-/transmission
-/jackett
-/sonarr
-/radarr
-/bazarr
-/quassel
-/lidarr
-/grocy
-/emby
-embystat
-/airsonic
-sabnzbd
-nzbhydra2
-komga
-photoprism
+/*/*
+!*/*.env
 
+# This is not necessary with the wildcard used in the first line, but it is clearer
 /letsencrypt/*
 !/letsencrypt/nginx/
 
