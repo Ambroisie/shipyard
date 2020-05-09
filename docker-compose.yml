@@ -48,6 +48,7 @@ services:
       - ~/books_to_add:/books_to_add
     expose:
       - 8080
+      - 8081
 
   calibre-web:
     image: linuxserver/calibre-web
@@ -101,8 +102,9 @@ services:
       - ~/downloads/blackhole:/watch
     expose:
       - 9091
-      - 51413
-      - 51413/udp
+    ports:
+      - 51413:51413
+      - 51413:51413/udp
 
   sabnzbd:
     image: linuxserver/sabnzbd
