@@ -327,6 +327,18 @@ services:
       - 22000:22000
       - 21027:21027/udp
 
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    restart: unless-stopped
+    env_file:
+      - ./nextcloud/nextcloud.env
+    volumes:
+      - ./nextcloud:/config
+      - ~/nextcloud:/data
+    expose:
+      - 443
+
   fava:
     image: yegle/fava
     restart: unless-stopped
