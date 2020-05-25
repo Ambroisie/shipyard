@@ -249,6 +249,18 @@ services:
     expose:
       - 4040
 
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+    env_file:
+      - navidrome/navidrome.env
+    volumes:
+      - ./navidrome:/data
+      - ~/music:/music:ro
+    expose:
+      - 4533
+
   komga:
     image: gotson/komga
     container_name: komga
