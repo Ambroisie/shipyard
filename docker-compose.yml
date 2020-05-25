@@ -297,3 +297,19 @@ services:
       - 2342
       - 2343
     user: 1000:1000
+
+  syncthing:
+    image: linuxserver/syncthing
+    restart: unless-stopped
+    container_name: syncthing
+    restart: unless-stopped
+    env_file:
+      - ./syncthing/syncthing.env
+    volumes:
+      - ./syncthing:/config
+      - ~/:/data1
+    expose:
+      - 8384
+    ports:
+      - 22000:22000
+      - 21027:21027/udp
