@@ -314,3 +314,15 @@ services:
     ports:
       - 22000:22000
       - 21027:21027/udp
+
+  fava:
+    image: yegle/fava
+    restart: unless-stopped
+    container_name: fava
+    env_file:
+      - ./fava/fava.env
+    volumes:
+      - ~/fava:/bean
+    expose:
+      - 5000
+    user: 1000:1000
