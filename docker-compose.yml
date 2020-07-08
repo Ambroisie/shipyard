@@ -90,7 +90,7 @@ services:
     expose:
       - 3000
     ports:
-      - 222:222
+      - "22:22"
 
   pyload:
     image: linuxserver/pyload
