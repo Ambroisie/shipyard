@@ -111,6 +111,7 @@ services:
     restart: unless-stopped
     env_file:
       - ./transmission/transmission.env
+      - ./transmission/transmission.env.secret
     volumes:
       - ./transmission:/config
       - ~/downloads:/downloads
