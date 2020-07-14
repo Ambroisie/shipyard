@@ -92,6 +92,34 @@ services:
     ports:
       - "22:22"
 
+  drone-server:
+    image: drone/drone:1
+    container_name: drone-server
+    restart: unless-stopped
+    env_file:
+      - ./drone/drone.env
+      - ./drone/drone.env.secret
+    volumes:
+      - ./drone:/data
+    expose:
+      - 8080
+    depends_on:
+      - gitea
+
+  drone-agent:
+    image: drone/agent:1
+    container_name: drone-agent
+    restart: unless-stopped
+    env_file:
+      - ./drone/drone-agent.env
+      - ./drone/drone-agent.env.secret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 3030:3000
+    depends_on:
+      - drone-server
+
   pyload:
     image: linuxserver/pyload
     container_name: pyload
