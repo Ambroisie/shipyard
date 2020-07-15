@@ -364,5 +364,5 @@ services:
       - ./matrix/matrix.env
     volumes:
       - ./matrix:/data
-    ports:
-      - 8008:8008
+    expose:
+      - 8008
