@@ -263,20 +263,6 @@ services:
     expose:
       - 8096
 
-  airsonic:
-    image: linuxserver/airsonic
-    container_name: airsonic
-    restart: unless-stopped
-    env_file:
-      - ./airsonic/airsonic.env
-    volumes:
-      - ./airsonic/:/config
-      - ~/music/:/music
-      - ~/podcasts:/podcasts
-      - ~/playlists:/playlists
-    expose:
-      - 4040
-
   navidrome:
     image: deluan/navidrome:latest
     container_name: navidrome
