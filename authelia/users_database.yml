@@ -1,0 +1,8 @@
+users:
+  Ambroisie:
+    displayname: "Bruno BELANYI"
+    password: "$argon2id$v=19$m=1048576,p=8$IcNVZ732CMoCSof6$h5zBFhd3t1d9Mx11uW+BahR6kGAaN59RQZwW9i3Nq9Q"
+    email: brunobelanyi@gmail.com
+    groups:
+      - admins
+      - dev
