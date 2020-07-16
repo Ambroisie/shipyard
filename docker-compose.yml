@@ -237,19 +237,6 @@ services:
     expose:
       - 6767
 
-  lidarr:
-    image: linuxserver/lidarr
-    container_name: lidarr
-    restart: unless-stopped
-    env_file:
-      - lidarr/lidarr.env
-    volumes:
-      - ./lidarr:/config
-      - ~/music:/music
-      - ~/downloads:/downloads
-    expose:
-      - 8686
-
   quassel-core:
     image: linuxserver/quassel-core
     container_name: quassel-core
