@@ -8,10 +8,23 @@ server {
     return 301 https://$host$request_uri;
 }
 
-# main server block
+# Default to showing 404 on unknown subdomain or missing host header
 server {
     listen 443 ssl http2 default_server;
     listen [::]:443 ssl http2 default_server;
+
+    server_name _;
+
+    # all ssl related config moved to ssl.conf
+    include /config/nginx/ssl.conf;
+
+    return 404;
+}
+
+# main server block
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
 
     root /config/www/hugo;
     index index.html;
