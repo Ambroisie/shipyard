@@ -364,3 +364,21 @@ services:
     env_file:
       - ./recipes/recipes.env
       - ./recipes/recipes.env.secret
+
+  jupyter:
+    image: jupyter/datascience-notebook:lab-2.1.5
+    restart: unless-stopped
+    container_name: jupyter
+    volumes:
+      - ./jupyter/notebooks:/home/jovyan/
+      - ./jupyter/hooks/:/usr/local/bin/start-notebook.d/
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - NB_UID=1000
+      - NB_GID=1000
+      - CHOWN_HOME=yes
+      - GRANT_SUDO=yes
+      - RESTARTABLE=yes
+    expose:
+      - 8888
+    user: root
