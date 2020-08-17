@@ -252,20 +252,6 @@ services:
       - 4242:4242
       - 113:10113 #optional
 
-  emby:
-    image: linuxserver/emby
-    container_name: emby
-    restart: unless-stopped
-    env_file:
-      - ./emby/emby.env
-    volumes:
-      - ./emby:/config
-      - ~/videos/shows:/data/tvshows
-      - ~/videos/movies:/data/movies
-      - /tmp/transcode:/transcode #optional
-    expose:
-      - 8096
-
   komga:
     image: gotson/komga
     container_name: komga
