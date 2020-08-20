@@ -11,9 +11,6 @@ services:
       - ./letsencrypt/letsencrypt.env
     volumes:
       - ./letsencrypt:/config
-      # Recipe media should not be served by GUnicorn, don't want to setup Nginx
-      - ./recipes/mediafiles:/opt/recipes/media
-      - ./recipes/staticfiles:/opt/recipes/static
     ports:
       - 80:80
       - 443:443
@@ -360,31 +357,6 @@ services:
       - ./riot/config.json:/app/config.json
     expose:
       - 80
-    ports:
-      - 8080:80
-
-  recipes:
-    image: vabene1111/recipes
-    restart: unless-stopped
-    container_name: recipes
-    env_file:
-      - ./recipes/recipes.env
-      - ./recipes/recipes.env.secret
-    volumes:
-      - ./recipes/staticfiles:/opt/recipes/staticfiles
-      - ./recipes/mediafiles:/opt/recipes/mediafiles
-    depends_on:
-      - recipes_db
-
-  recipes_db:
-    image: postgres:11-alpine
-    restart: unless-stopped
-    container_name: recipes_db
-    volumes:
-      - ./recipes/postgresql:/var/lib/postgresql/data
-    env_file:
-      - ./recipes/recipes.env
-      - ./recipes/recipes.env.secret
 
   jupyter:
     image: jupyter/datascience-notebook:lab-2.1.5
