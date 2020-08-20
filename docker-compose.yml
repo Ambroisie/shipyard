@@ -352,6 +352,17 @@ services:
     expose:
       - 8008
 
+  riot:
+    image: vectorim/riot-web:v1.7.4
+    restart: unless-stopped
+    container_name: riot
+    volumes:
+      - ./riot/config.json:/app/config.json
+    expose:
+      - 80
+    ports:
+      - 8080:80
+
   recipes:
     image: vabene1111/recipes
     restart: unless-stopped
