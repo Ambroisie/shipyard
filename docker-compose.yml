@@ -128,17 +128,17 @@ services:
     depends_on:
       - gitea
 
-  drone-agent:
-    image: drone/agent:1
-    container_name: drone-agent
+  drone-runner:
+    image: drone/drone-runner-docker:1
+    container_name: drone-runner
     restart: unless-stopped
     env_file:
-      - ./drone/drone-agent.env
-      - ./drone/drone-agent.env.secret
+      - ./drone/drone-runner.env
+      - ./drone/drone-runner.env.secret
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 3030:3000
+    expose:
+      - 3000
     depends_on:
       - drone-server
 
