@@ -1,16 +1,16 @@
 version: "3"
 
 services:
-  letsencrypt:
-    image: linuxserver/letsencrypt
-    container_name: letsencrypt
+  swag:
+    image: linuxserver/swag
+    container_name: swag
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     env_file:
-      - ./letsencrypt/letsencrypt.env
+      - ./swag/swag.env
     volumes:
-      - ./letsencrypt:/config
+      - ./swag:/config
     ports:
       - 80:80
       - 443:443

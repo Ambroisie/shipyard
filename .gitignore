@@ -3,11 +3,11 @@
 /*/*.env.secret # Just to document that they should definitely never be added
 
 # This is not necessary with the wildcard used in the first line, but it is clearer
-/letsencrypt/*
-!/letsencrypt/nginx/
+/swag/*
+!/swag/nginx/
 
-/letsencrypt/nginx/*
-!/letsencrypt/nginx/proxy-confs/
+/swag/nginx/*
+!/swag/nginx/proxy-confs/
 
-/letsencrypt/nginx/proxy-confs/*.sample
-/letsencrypt/nginx/proxy-confs/README.md
+/swag/nginx/proxy-confs/*.sample
+/swag/nginx/proxy-confs/README.md
