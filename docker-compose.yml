@@ -299,6 +299,7 @@ services:
       retries: 5
     env_file:
       - ./photoprism/photoprism.env
+      - ./photoprism/photoprism.env.secret
     volumes:
       - ~/pictures/originals:/photoprism/originals
       - ~/pictures/import:/photoprism/import
