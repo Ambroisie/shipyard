@@ -370,3 +370,15 @@ services:
       - ./riot/config.json:/app/config.json
     expose:
       - 80
+
+  restic:
+    image: lobaro/restic-backup-docker
+    restart: unless-stopped
+    container_name: restic
+    hostname: restic-athos
+    env_file:
+      - ./restic/restic.env
+      - ./restic/restic.env.secret
+    volumes:
+      - ~/library/:/data/library
+      - ~/nextcloud/:/data/nextcloud
