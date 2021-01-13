@@ -79,6 +79,21 @@ server {
     client_max_body_size 0;
 }
 
+# Keys
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    root /config/www/key;
+
+    server_name key.*;
+
+    # all ssl related config moved to ssl.conf
+    include /config/nginx/ssl.conf;
+
+    client_max_body_size 0;
+}
+
 # enable subdomain method reverse proxy confs
 include /config/nginx/proxy-confs/*.subdomain.conf;
 # enable proxy cache for auth
