@@ -9,5 +9,4 @@ Simply run `docker-compose up -d`.
 
 ## Post install
 
-* Change the password for `Tranmission` in `transmission/transmission.env`.
 * Follow the instruction at swag/nginx/proxy-confs/nextcloud.subdomain.conf
