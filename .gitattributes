@@ -1,0 +1,2 @@
+# Secret environment files
+/*/*.env.secret filter=git-crypt diff=git-crypt
