@@ -370,3 +370,7 @@ services:
     volumes:
       - ~/library/:/data/library
       - ~/nextcloud/:/data/nextcloud
+      - ./gitea/:/data/gitea
+      - ./matrix/:/data/matrix
+      - ./freshrss/:/data/freshrss
+      - ./calibre-web:/data/calibre-web
