@@ -72,6 +72,8 @@ services:
     expose:
       - 8080
       - 8081
+    ports:
+      - 9090:9090
     depends_on:
       - "calibre-web" # Because of access to database
 

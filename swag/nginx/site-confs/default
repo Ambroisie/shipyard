@@ -29,7 +29,7 @@ server {
     root /config/www/hugo;
     index index.html;
 
-    server_name belanyi.fr;
+    server_name old.belanyi.fr;
 
     # all ssl related config moved to ssl.conf
     include /config/nginx/ssl.conf;
@@ -52,7 +52,7 @@ server {
     root /config/www/hugo-dev;
     index index.html;
 
-    server_name dev.belanyi.fr;
+    server_name dev.old.belanyi.fr;
 
     # all ssl related config moved to ssl.conf
     include /config/nginx/ssl.conf;
